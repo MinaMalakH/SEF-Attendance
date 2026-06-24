@@ -1,0 +1,1843 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <title>تسجيل الحضور</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- <style>
+      /* ── RESET & BASE ────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --c-blue-50: #e6f1fb;
+        --c-blue-100: #b5d4f4;
+        --c-blue-600: #185fa5;
+        --c-blue-800: #0c447c;
+        --c-teal-50: #e1f5ee;
+        --c-teal-600: #0f6e56;
+        --c-teal-800: #085041;
+        --c-green-50: #eaf3de;
+        --c-green-600: #3b6d11;
+        --c-amber-50: #faeeda;
+        --c-amber-600: #854f0b;
+        --c-red-50: #fcebeb;
+        --c-red-600: #a32d2d;
+        --c-gray-50: #f1efe8;
+        --c-gray-200: #b4b2a9;
+        --c-gray-600: #5f5e5a;
+        --c-gray-800: #444441;
+        --radius-md: 8px;
+        --radius-lg: 12px;
+        --radius-xl: 16px;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+
+      body {
+        font-family: -apple-system, "Segoe UI", Tahoma, sans-serif;
+        font-size: 15px;
+        color: #1a1a1a;
+        background: #f5f6fa;
+        min-height: 100vh;
+      }
+
+      /* ── LAYOUT ──────────────────────────────── */
+      .app {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 0 0 80px;
+      }
+
+      .top-bar {
+        background: var(--c-blue-800);
+        color: white;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: var(--shadow-sm);
+      }
+      .top-bar .title {
+        font-size: 16px;
+        font-weight: 600;
+        flex: 1;
+      }
+      .top-bar .sub {
+        font-size: 12px;
+        opacity: 0.75;
+      }
+      .top-bar .badge {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 2px 10px;
+        font-size: 12px;
+      }
+
+      .page {
+        display: none;
+        padding: 16px;
+      }
+      .page.active {
+        display: block;
+      }
+
+      /* ── CARDS ───────────────────────────────── */
+      .card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 16px;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 12px;
+      }
+      .card-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--c-gray-600);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+      }
+
+      /* ── FORM ELEMENTS ───────────────────────── */
+      .field {
+        margin-bottom: 14px;
+      }
+      .field:last-child {
+        margin-bottom: 0;
+      }
+      label.field-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--c-gray-600);
+        margin-bottom: 5px;
+      }
+      input[type="text"],
+      input[type="tel"],
+      input[type="date"],
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1.5px solid #ddd;
+        border-radius: var(--radius-md);
+        font-size: 15px;
+        color: #1a1a1a;
+        background: white;
+        transition: border-color 0.15s;
+        font-family: inherit;
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--c-blue-600);
+        box-shadow: 0 0 0 3px var(--c-blue-50);
+      }
+      input.error {
+        border-color: var(--c-red-600);
+      }
+
+      .row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      /* ── BUTTONS ─────────────────────────────── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 11px 18px;
+        border: 1.5px solid #ddd;
+        border-radius: var(--radius-md);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        background: white;
+        color: #333;
+        transition: all 0.15s;
+        font-family: inherit;
+        text-align: center;
+      }
+      .btn:hover {
+        background: var(--c-gray-50);
+        border-color: #bbb;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn-primary {
+        background: var(--c-blue-800);
+        color: white;
+        border-color: var(--c-blue-800);
+      }
+      .btn-primary:hover {
+        background: var(--c-blue-600);
+        border-color: var(--c-blue-600);
+      }
+      .btn-success {
+        background: var(--c-teal-800);
+        color: white;
+        border-color: var(--c-teal-800);
+      }
+      .btn-success:hover {
+        background: var(--c-teal-600);
+      }
+      .btn-block {
+        width: 100%;
+      }
+      .btn-sm {
+        padding: 7px 12px;
+        font-size: 13px;
+      }
+      .btn-ghost {
+        border-color: transparent;
+        background: transparent;
+        color: var(--c-gray-600);
+      }
+      .btn-ghost:hover {
+        background: var(--c-gray-50);
+        border-color: #ddd;
+      }
+      .btn-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      /* ── BADGES ──────────────────────────────── */
+      .badge {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .badge-blue {
+        background: var(--c-blue-50);
+        color: var(--c-blue-800);
+      }
+      .badge-green {
+        background: var(--c-green-50);
+        color: var(--c-green-600);
+      }
+      .badge-amber {
+        background: var(--c-amber-50);
+        color: var(--c-amber-600);
+      }
+      .badge-gray {
+        background: var(--c-gray-50);
+        color: var(--c-gray-600);
+      }
+
+      /* ── TYPE PICKER CARDS ───────────────────── */
+      .type-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .type-card {
+        background: white;
+        border: 1.5px solid #e0e0e0;
+        border-radius: var(--radius-xl);
+        padding: 20px 12px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.15s;
+        box-shadow: var(--shadow-sm);
+      }
+      .type-card:hover {
+        border-color: var(--c-blue-600);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .type-card .icon-wrap {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-size: 24px;
+      }
+      .type-card .type-name {
+        font-weight: 600;
+        font-size: 15px;
+        color: #1a1a1a;
+      }
+      .type-card .type-sub {
+        font-size: 12px;
+        color: var(--c-gray-600);
+        margin-top: 3px;
+      }
+
+      /* ── SEARCH RESULTS ──────────────────────── */
+      .search-box {
+        position: relative;
+      }
+      .search-box i {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--c-gray-200);
+        font-size: 18px;
+      }
+      .search-box input {
+        padding-right: 38px;
+      }
+
+      .result-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        background: white;
+        border-radius: var(--radius-md);
+        margin-bottom: 8px;
+        cursor: pointer;
+        border: 1.5px solid #e8e8e8;
+        transition: all 0.15s;
+        box-shadow: var(--shadow-sm);
+      }
+      .result-item:hover {
+        border-color: var(--c-blue-600);
+        background: var(--c-blue-50);
+      }
+      .avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .result-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: #1a1a1a;
+      }
+      .result-sub {
+        font-size: 12px;
+        color: var(--c-gray-600);
+        margin-top: 2px;
+      }
+
+      /* ── PERSON DETAIL ───────────────────────── */
+      .person-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .person-avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        font-size: 22px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .detail-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .detail-table td {
+        padding: 7px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .detail-table td:first-child {
+        color: var(--c-gray-600);
+        width: 40%;
+      }
+      .detail-table td:last-child {
+        font-weight: 500;
+        text-align: left;
+      }
+      .detail-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      /* ── MISSING FIELD EDITOR ────────────────── */
+      .missing-field {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        background: var(--c-amber-50);
+        border: 1px dashed #d4a017;
+        border-radius: var(--radius-md);
+        margin-top: 6px;
+      }
+      .missing-field span {
+        font-size: 12px;
+        color: var(--c-amber-600);
+        flex: 1;
+      }
+
+      /* ── COLLEGE CHECKLIST ───────────────────── */
+      .college-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .college-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border: 1.5px solid #e0e0e0;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all 0.15s;
+        font-size: 13px;
+        background: white;
+      }
+      .college-item:hover {
+        border-color: var(--c-blue-600);
+        background: var(--c-blue-50);
+      }
+      .college-item.selected {
+        border-color: var(--c-blue-800);
+        background: var(--c-blue-50);
+        color: var(--c-blue-800);
+        font-weight: 600;
+      }
+      .college-item input {
+        display: none;
+      }
+
+      /* ── CONFIRM BANNER ──────────────────────── */
+      .confirm-banner {
+        background: var(--c-green-50);
+        border: 1.5px solid #8bc34a;
+        border-radius: var(--radius-md);
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .confirm-banner i {
+        font-size: 22px;
+        color: var(--c-green-600);
+        flex-shrink: 0;
+      }
+      .confirm-banner .cb-text {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--c-green-600);
+      }
+      .confirm-banner .cb-date {
+        font-size: 12px;
+        color: var(--c-teal-600);
+        margin-top: 2px;
+      }
+
+      /* ── SUCCESS PAGE ────────────────────────── */
+      .success-wrap {
+        text-align: center;
+        padding: 40px 20px;
+      }
+      .success-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: var(--c-green-50);
+        border: 3px solid #8bc34a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+        font-size: 36px;
+        color: var(--c-green-600);
+      }
+      .success-name {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 6px;
+      }
+      .success-sub {
+        font-size: 14px;
+        color: var(--c-gray-600);
+        margin-bottom: 30px;
+      }
+      .success-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+
+      /* ── STATS ROW ───────────────────────────── */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .stats-row.full {
+        grid-template-columns: 1fr;
+      }
+      .stat-box {
+        background: white;
+        border-radius: var(--radius-md);
+        padding: 12px 8px;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+      }
+      .stat-num {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--c-blue-800);
+      }
+      .stat-lbl {
+        font-size: 11px;
+        color: var(--c-gray-600);
+        margin-top: 2px;
+      }
+
+      /* ── TOAST ───────────────────────────────── */
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: #1f4e79;
+        color: white;
+        padding: 11px 22px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 500;
+        z-index: 9999;
+        transition: transform 0.25s ease;
+        white-space: nowrap;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+      }
+      .toast.error {
+        background: var(--c-red-600);
+      }
+
+      /* ── LOADER ──────────────────────────────── */
+      .loader {
+        display: none;
+        text-align: center;
+        padding: 30px;
+        color: var(--c-gray-600);
+        font-size: 13px;
+      }
+      .loader.show {
+        display: block;
+      }
+      .spinner {
+        width: 28px;
+        height: 28px;
+        border: 3px solid #e0e0e0;
+        border-top-color: var(--c-blue-800);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        margin: 0 auto 10px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ── DIVIDER ─────────────────────────────── */
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 14px 0;
+        color: var(--c-gray-200);
+        font-size: 12px;
+      }
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #e8e8e8;
+      }
+
+      /* ── EMPTY STATE ─────────────────────────── */
+      .empty {
+        text-align: center;
+        padding: 30px 20px;
+        color: var(--c-gray-600);
+      }
+      .empty i {
+        font-size: 36px;
+        display: block;
+        margin-bottom: 10px;
+        color: var(--c-gray-200);
+      }
+      .empty p {
+        font-size: 13px;
+      }
+
+      /* ── NO RESULTS ──────────────────────────── */
+      #noResults {
+        display: none;
+      }
+
+      /* ── BACK BUTTON ─────────────────────────── */
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--c-blue-600);
+        cursor: pointer;
+        margin-bottom: 14px;
+        background: none;
+        border: none;
+        padding: 0;
+        font-family: inherit;
+      }
+      .back-btn:hover {
+        text-decoration: underline;
+      }
+
+      /* ── SECTION HEADING ─────────────────────── */
+      .section-heading {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 4px;
+      }
+      .section-sub {
+        font-size: 13px;
+        color: var(--c-gray-600);
+        margin-bottom: 16px;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #eeeeee;
+        margin: 14px 0;
+      }
+    </style> -->
+  </head>
+  <body>
+    <div id="app">
+      <!-- ── TOP BAR ─────────────────────────── -->
+      <div class="top-bar">
+        <i
+          class="ti ti-calendar-check"
+          style="font-size: 22px"
+          aria-hidden="true"
+        ></i>
+        <div style="flex: 1">
+          <div class="title">نظام الحضور</div>
+          <div class="sub" id="topBarSub">اختر تاريخ الجلسة</div>
+        </div>
+        <div class="badge" id="topBarBadge" style="display: none"></div>
+      </div>
+
+      <div class="app">
+        <!-- ══════════════════════════════════════ -->
+        <!-- PAGE 0: DATE SETUP                     -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="page active" id="p0">
+          <br />
+          <div class="section-heading">حضور اليوم</div>
+          <div class="section-sub">أدخل تاريخ الجلسة لبدء تسجيل الحضور</div>
+
+          <div class="card">
+            <div class="field">
+              <label class="field-label">تاريخ الجلسة</label>
+              <input type="date" id="sessionDate" />
+            </div>
+            <button class="btn btn-primary btn-block" onclick="startSession()">
+              <i class="ti ti-arrow-left"></i> ابدأ الجلسة
+            </button>
+          </div>
+
+          <div
+            class="card"
+            style="background: var(--c-blue-50); box-shadow: none"
+          >
+            <p
+              style="
+                font-size: 12px;
+                color: var(--c-blue-800);
+                display: flex;
+                gap: 6px;
+                align-items: flex-start;
+              "
+            >
+              <i
+                class="ti ti-info-circle"
+                style="flex-shrink: 0; margin-top: 1px"
+              ></i>
+              سيتم إنشاء عمود جديد بهذا التاريخ في كلا الشيتين تلقائياً إذا لم
+              يكن موجوداً من قبل.
+            </p>
+          </div>
+
+          <!-- CONFIG SECTION -->
+          <div class="card">
+            <div class="card-title">⚙️ إعدادات الاتصال</div>
+            <div class="field">
+              <label class="field-label">رابط Web App (من Apps Script)</label>
+              <input
+                type="text"
+                id="scriptUrl"
+                placeholder="https://script.google.com/macros/s/..."
+              />
+            </div>
+            <button
+              class="btn btn-sm"
+              onclick="saveConfig()"
+              style="width: 100%"
+            >
+              حفظ الإعدادات
+            </button>
+            <p
+              style="font-size: 11px; color: var(--c-gray-600); margin-top: 8px"
+            >
+              يُحفظ الرابط في المتصفح. لا تشاركه مع أحد.
+            </p>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- PAGE 1: TYPE PICKER                    -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="page" id="p1">
+          <br />
+          <div class="section-heading">نوع الشخص</div>
+          <div class="section-sub">اختر نوع الشخص المراد تسجيل حضوره</div>
+
+          <div id="statsLoader" class="loader show">
+            <div class="spinner"></div>
+            جاري التحميل...
+          </div>
+
+          <div id="statsArea" style="display: none">
+            <div class="stats-row full" id="statsRowDate">
+              <div class="stat-box">
+                <div class="stat-num" id="st_date">—</div>
+                <div class="stat-lbl">تاريخ الجلسة</div>
+              </div>
+            </div>
+            <div class="stats-row" id="statsRow1">
+              <div class="stat-box">
+                <div class="stat-num" id="st_khudam">—</div>
+                <div class="stat-lbl">خدام حاضر</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="st_makhdoumin">—</div>
+                <div class="stat-lbl">مخدومين حاضر</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="st_total">—</div>
+                <div class="stat-lbl">الإجمالي</div>
+              </div>
+            </div>
+            <div class="stats-row" id="statsRow2">
+              <div class="stat-box">
+                <div class="stat-num" id="st_firsttime">—</div>
+                <div class="stat-lbl">وافدين جدد اليوم</div>
+              </div>
+            </div>
+            <button
+              class="btn btn-sm"
+              id="viewFirstTimeBtn"
+              onclick="viewFirstTimePersons()"
+              style="width: 100%; margin-top: 8px"
+            >
+              <i class="ti ti-eye"></i> عرض الوافدين الجدد اليوم
+            </button>
+            <button
+              class="btn btn-sm"
+              id="viewAttendeeBtn"
+              onclick="viewTodayAttendees()"
+              style="width: 100%; margin-top: 8px"
+            >
+              <i class="ti ti-users-check"></i> عرض الحاضرين اليوم
+            </button>
+          </div>
+
+          <div class="type-grid">
+            <div class="type-card" onclick="goToSearch(1)">
+              <div class="icon-wrap" style="background: var(--c-blue-50)">
+                <i
+                  class="ti ti-users"
+                  style="color: var(--c-blue-800)"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <div class="type-name">خدام</div>
+            </div>
+            <div class="type-card" onclick="goToSearch(2)">
+              <div class="icon-wrap" style="background: var(--c-amber-50)">
+                <i
+                  class="ti ti-user-star"
+                  style="color: var(--c-amber-600)"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <div class="type-name">مخدومين</div>
+            </div>
+          </div>
+
+          <br />
+          <button class="btn btn-ghost btn-block btn-sm" onclick="goTo('p0')">
+            <i class="ti ti-calendar"></i> تغيير تاريخ الجلسة
+          </button>
+        </div>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- PAGE 2: SEARCH                         -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="page" id="p2">
+          <br />
+          <button class="back-btn" onclick="goTo('p1')">
+            <i class="ti ti-arrow-right"></i> العودة
+          </button>
+
+          <div class="section-heading" id="p2Title">بحث — خدام</div>
+          <div class="section-sub">ابحث باسم الشخص أو رقم موبايله أو كليته</div>
+
+          <div class="card">
+            <div class="search-box">
+              <i class="ti ti-search"></i>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="اكتب هنا..."
+                oninput="onSearchInput()"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div id="searchLoader" class="loader">
+            <div class="spinner"></div>
+            جاري البحث...
+          </div>
+
+          <div id="searchResults"></div>
+
+          <div id="noResults" class="empty">
+            <i class="ti ti-user-question"></i>
+            <p>لا توجد نتائج لهذا البحث</p>
+            <p
+              style="margin-top: 4px; font-size: 12px; color: var(--c-gray-200)"
+              id="noResultsHint"
+            >
+              هل هو وافد جديد؟
+            </p>
+          </div>
+
+          <div class="divider">أو</div>
+
+          <button
+            class="btn btn-success btn-block"
+            onclick="goToNewcomer()"
+            id="newcomerBtn"
+          >
+            <i class="ti ti-user-plus"></i> تسجيل وافد جديد
+          </button>
+        </div>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- PAGE 3: PERSON DETAIL                  -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="page" id="p3">
+          <br />
+          <button class="back-btn" onclick="goTo('p2')">
+            <i class="ti ti-arrow-right"></i> العودة للبحث
+          </button>
+
+          <div id="personDetailCard" class="card"></div>
+
+          <!-- Missing fields editor -->
+          <div id="missingSection" style="display: none">
+            <div
+              class="card"
+              style="
+                border: 1.5px dashed #d4a017;
+                background: var(--c-amber-50);
+              "
+            >
+              <div class="card-title" style="color: var(--c-amber-600)">
+                <i class="ti ti-alert-triangle"></i> بيانات ناقصة — يمكن إكمالها
+                الآن
+              </div>
+              <div id="missingFields"></div>
+            </div>
+          </div>
+
+          <div class="confirm-banner">
+            <i class="ti ti-calendar-check"></i>
+            <div>
+              <div class="cb-text">سيتم تسجيل الحضور</div>
+              <div class="cb-date" id="confirmDateLabel"></div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn" onclick="goTo('p2')">إلغاء</button>
+            <button class="btn btn-success" onclick="confirmAttendance()">
+              <i class="ti ti-check"></i> تأكيد الحضور
+            </button>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- PAGE 4: NEWCOMER FORM                  -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="page" id="p4">
+          <br />
+          <button class="back-btn" onclick="goTo('p2')">
+            <i class="ti ti-arrow-right"></i> العودة
+          </button>
+
+          <div class="section-heading" id="p4Title">وافد جديد</div>
+          <div class="section-sub" id="p4Sub"></div>
+
+          <div class="card">
+            <div class="card-title">البيانات الأساسية</div>
+            <div class="row2">
+              <div class="field">
+                <label class="field-label">الاسم الأول *</label>
+                <input type="text" id="nc_fname" placeholder="مثال: مريم" />
+              </div>
+              <div class="field">
+                <label class="field-label">اسم العائلة *</label>
+                <input type="text" id="nc_lname" placeholder="مثال: جورج" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label">رقم الموبايل *</label>
+              <input
+                type="tel"
+                id="nc_phone"
+                placeholder="01XXXXXXXXX"
+                maxlength="11"
+              />
+            </div>
+            <div class="field">
+              <label class="field-label">تاريخ الميلاد *</label>
+              <input type="date" id="nc_bdate" />
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">الكلية *</div>
+            <div class="college-grid" id="collegeGrid"></div>
+            <div id="otherCollegeWrap" style="display: none; margin-top: 10px">
+              <input
+                type="text"
+                id="nc_other_college"
+                placeholder="اكتب اسم الكلية..."
+              />
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">نوع الدخول</div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 10px 0;
+              "
+            >
+              <input
+                type="checkbox"
+                id="nc_is_old"
+                style="width: 18px; height: 18px; cursor: pointer"
+              />
+              <label
+                for="nc_is_old"
+                style="cursor: pointer; font-size: 14px; margin: 0"
+              >
+                هذا وافد قديم (كان موجود من قبل لكن بيانته ليست في النظام)
+              </label>
+            </div>
+            <p
+              style="font-size: 12px; color: var(--c-gray-600); margin-top: 8px"
+            >
+              ✓ إذا كان موجود من قبل، سيتم وضع علامة في عمود "وافد قديم"
+              بالإضافة إلى تسجيل الحضور لهذا اليوم
+            </p>
+          </div>
+
+          <div class="confirm-banner">
+            <i class="ti ti-calendar-plus"></i>
+            <div>
+              <div class="cb-text">سيُسجَّل حضوره تلقائياً</div>
+              <div class="cb-date" id="ncDateLabel"></div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn" onclick="goTo('p2')">إلغاء</button>
+            <button class="btn btn-success" onclick="submitNewcomer()">
+              <i class="ti ti-device-floppy"></i> حفظ وتسجيل
+            </button>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- PAGE 5: SUCCESS                        -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="page" id="p5">
+          <div class="success-wrap">
+            <div class="success-icon">
+              <i class="ti ti-check"></i>
+            </div>
+            <div class="success-name" id="successName">تم!</div>
+            <div class="success-sub" id="successSub"></div>
+            <div class="success-actions">
+              <button class="btn" onclick="nextPerson()">
+                <i class="ti ti-user-plus"></i> شخص آخر
+              </button>
+              <button class="btn btn-primary" onclick="goTo('p1')">
+                <i class="ti ti-refresh"></i> تغيير النوع
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- PAGE 6: FIRST-TIME PERSONS LIST        -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="page" id="p6">
+          <br />
+          <button class="back-btn" onclick="goTo('p1')">
+            <i class="ti ti-arrow-right"></i> العودة
+          </button>
+
+          <div class="section-heading">الوافدين الجدد اليوم</div>
+          <div class="section-sub">
+            قائمة الأشخاص المسجلين لأول مرة في النظام اليوم
+          </div>
+
+          <div id="firstTimeLoader" class="loader show">
+            <div class="spinner"></div>
+            جاري التحميل...
+          </div>
+
+          <div id="firstTimeList" style="display: none"></div>
+
+          <div id="firstTimeEmpty" class="empty" style="display: none">
+            <i class="ti ti-inbox"></i>
+            <p>لا توجد وافدين جدد في هذا اليوم</p>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- PAGE 7: TODAY ATTENDEES LIST           -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="page" id="p7">
+          <br />
+          <button class="back-btn" onclick="goTo('p1')">
+            <i class="ti ti-arrow-right"></i> العودة
+          </button>
+
+          <div class="section-heading">الحاضرون اليوم</div>
+          <div class="section-sub">
+            جميع الأشخاص المسجلين حضورهم في هذا اليوم
+          </div>
+
+          <div id="attendeeLoader" class="loader show">
+            <div class="spinner"></div>
+            جاري التحميل...
+          </div>
+
+          <div id="attendeeList" style="display: none"></div>
+
+          <div id="attendeeEmpty" class="empty" style="display: none">
+            <i class="ti ti-inbox"></i>
+            <p>لا يوجد حاضرون في هذا اليوم</p>
+          </div>
+        </div>
+      </div>
+      <!-- .app -->
+    </div>
+    <!-- #app -->
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- <script>
+      // ── CONFIGURATION ──────────────────────────────────────────────
+      const SCRIPT_URL_KEY = "attendanceScriptUrl";
+      const COLLEGES = [
+        "طب",
+        "هندسة",
+        "حاسبات ومعلومات",
+        "علوم",
+        "صيدلة",
+        "أسنان",
+        "تمريض",
+        "تجارة",
+        "حقوق",
+        "آداب",
+        "تربية",
+        "زراعة",
+        "علاج طبيعي",
+        "أخرى",
+      ];
+
+      // ── STATE ──────────────────────────────────────────────────────
+      let state = {
+        sessionDate: "", // 'yyyy-MM-dd'
+        sessionDateAr: "", // Arabic formatted
+        currentType: 1, // 1 or 2
+        selectedPerson: null, // { rowIndex, name, phone, bdate, college, attendance }
+        pendingUpdates: {}, // { phone, bdate, college } from missing-fields editor
+        scriptUrl: "",
+        searchTimer: null,
+      };
+
+      // ── INIT ───────────────────────────────────────────────────────
+      window.onload = function () {
+        // Load saved script URL
+        const saved = localStorage.getItem(SCRIPT_URL_KEY);
+        if (saved) {
+          state.scriptUrl = saved;
+          document.getElementById("scriptUrl").value = saved;
+        }
+        // Default today
+        const today = new Date();
+        document.getElementById("sessionDate").valueAsDate = today;
+        buildCollegeGrid();
+      };
+
+      // ── UTILS ──────────────────────────────────────────────────────
+      function goTo(pageId) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document.getElementById(pageId).classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        // If navigating to the stats page, refresh stats so numbers are up-to-date
+        if (pageId === "p1" && state.sessionDate) {
+          loadStats(state.currentType || 1);
+        }
+      }
+
+      function showToast(msg, isError = false) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.className = "toast" + (isError ? " error" : "");
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2800);
+      }
+
+      function formatDateAr(dateStr) {
+        if (!dateStr) return "";
+        const d = new Date(dateStr + "T00:00:00");
+        return d.toLocaleDateString("ar-EG", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+      }
+
+      function formatDateShortAr(dateStr) {
+        if (!dateStr) return "";
+        const d = new Date(dateStr + "T00:00:00");
+        return d.toLocaleDateString("ar-EG", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+      }
+
+      function getInitials(name) {
+        if (!name) return "?";
+        const parts = name.trim().split(" ");
+        return parts.length >= 2 ? parts[0][0] + parts[1][0] : parts[0][0];
+      }
+
+      function avatarColors(name) {
+        const palettes = [
+          { bg: "#E6F1FB", color: "#0C447C" },
+          { bg: "#E1F5EE", color: "#085041" },
+          { bg: "#FAEEDA", color: "#854F0B" },
+          { bg: "#FBEAF0", color: "#72243E" },
+          { bg: "#EAF3DE", color: "#27500A" },
+        ];
+        const i = (name || "").charCodeAt(0) % palettes.length;
+        return palettes[i];
+      }
+
+      // ── NETWORK ────────────────────────────────────────────────────
+      async function apiGet(params) {
+        if (!state.scriptUrl) throw new Error("لم يتم إدخال رابط Web App");
+        const url = state.scriptUrl + "?" + new URLSearchParams(params);
+        const res = await fetch(url, { redirect: "follow" });
+        return res.json();
+      }
+
+      async function apiPost(body) {
+        if (!state.scriptUrl) throw new Error("لم يتم إدخال رابط Web App");
+        const res = await fetch(state.scriptUrl, {
+          method: "POST",
+          redirect: "follow",
+          headers: { "Content-Type": "text/plain" }, // avoids CORS preflight
+          body: JSON.stringify(body),
+        });
+        return res.json();
+      }
+
+      // ── CONFIG ─────────────────────────────────────────────────────
+      function saveConfig() {
+        const url = document.getElementById("scriptUrl").value.trim();
+        if (!url.startsWith("https://script.google.com")) {
+          showToast("الرابط غير صحيح", true);
+          return;
+        }
+        state.scriptUrl = url;
+        localStorage.setItem(SCRIPT_URL_KEY, url);
+        showToast("تم حفظ الإعدادات ✓");
+      }
+
+      // ── PAGE 0 → 1: START SESSION ──────────────────────────────────
+      async function startSession() {
+        const d = document.getElementById("sessionDate").value;
+        if (!d) {
+          showToast("اختر التاريخ أولاً", true);
+          return;
+        }
+        if (!state.scriptUrl) {
+          showToast("أدخل رابط Web App أولاً", true);
+          return;
+        }
+
+        state.sessionDate = d;
+        state.sessionDateAr = formatDateAr(d);
+
+        // Update top bar
+        document.getElementById("topBarSub").textContent = formatDateShortAr(d);
+        document.getElementById("topBarBadge").textContent = "جلسة نشطة";
+        document.getElementById("topBarBadge").style.display = "";
+
+        // Show loading
+        goTo("p1");
+        document.getElementById("statsLoader").classList.add("show");
+        document.getElementById("statsArea").style.display = "none";
+
+        // Create date columns in background (don't block UI)
+        try {
+          await apiPost({ action: "addDateColumn", date: d });
+        } catch (e) {
+          showToast("تعذّر إنشاء العمود: " + e.message, true);
+        }
+
+        // Load stats for type 1 (default view)
+        loadStats(1);
+      }
+
+      async function loadStats(type) {
+        document.getElementById("statsLoader").classList.add("show");
+        document.getElementById("statsArea").style.display = "none";
+        try {
+          // Always fetch both types so we can show khudam, makhdoumin and total
+          const [a, b] = await Promise.all([
+            apiGet({ action: "getStats", type: 1, date: state.sessionDate }),
+            apiGet({ action: "getStats", type: 2, date: state.sessionDate }),
+          ]);
+
+          const aOk = a && a.ok;
+          const bOk = b && b.ok;
+
+          // Date label
+          document.getElementById("st_date").textContent =
+            state.sessionDateAr || formatDateShortAr(state.sessionDate) || "—";
+
+          const aToday = aOk ? Number(a.todayCount || 0) : 0;
+          const bToday = bOk ? Number(b.todayCount || 0) : 0;
+          const aFirstTime = aOk ? Number(a.firstTimeCount || 0) : 0;
+          const bFirstTime = bOk ? Number(b.firstTimeCount || 0) : 0;
+
+          document.getElementById("st_khudam").textContent = aOk ? aToday : "—";
+          document.getElementById("st_makhdoumin").textContent = bOk
+            ? bToday
+            : "—";
+          document.getElementById("st_total").textContent =
+            aToday + bToday || 0;
+          document.getElementById("st_firsttime").textContent =
+            aFirstTime + bFirstTime || 0;
+
+          // Show/hide view button based on first-time count
+          const totalFirstTime = aFirstTime + bFirstTime;
+          const btn = document.getElementById("viewFirstTimeBtn");
+          if (totalFirstTime > 0) {
+            btn.style.display = "";
+          } else {
+            btn.style.display = "none";
+          }
+
+          if (aOk || bOk)
+            document.getElementById("statsArea").style.display = "";
+        } catch (e) {
+          // stats are optional
+        }
+        document.getElementById("statsLoader").classList.remove("show");
+      }
+
+      // ── PAGE 1 → 2: GO TO SEARCH ──────────────────────────────────
+      function goToSearch(type) {
+        state.currentType = type;
+        document.getElementById("p2Title").textContent =
+          type === 1 ? "بحث — خدام" : "بحث — مخدوم";
+        document.getElementById("searchInput").value = "";
+        document.getElementById("searchResults").innerHTML = "";
+        document.getElementById("noResults").style.display = "none";
+        document.getElementById("searchLoader").classList.remove("show");
+        goTo("p2");
+      }
+
+      // ── SEARCH ─────────────────────────────────────────────────────
+      function onSearchInput() {
+        clearTimeout(state.searchTimer);
+        state.searchTimer = setTimeout(doSearch, 400); // debounce 400ms
+      }
+
+      async function doSearch() {
+        const q = document.getElementById("searchInput").value.trim();
+        const resultsEl = document.getElementById("searchResults");
+        const noEl = document.getElementById("noResults");
+        const loader = document.getElementById("searchLoader");
+
+        if (q.length < 2) {
+          resultsEl.innerHTML = "";
+          noEl.style.display = "none";
+          return;
+        }
+
+        loader.classList.add("show");
+        resultsEl.innerHTML = "";
+        noEl.style.display = "none";
+
+        try {
+          const data = await apiGet({
+            action: "search",
+            type: state.currentType,
+            q,
+          });
+          loader.classList.remove("show");
+
+          if (!data.ok) {
+            showToast("خطأ: " + data.error, true);
+            return;
+          }
+
+          if (!data.results || data.results.length === 0) {
+            noEl.style.display = "block";
+            return;
+          }
+
+          resultsEl.innerHTML = data.results
+            .map((p) => {
+              const c = avatarColors(p.name);
+              const alreadyPresent =
+                p.attendance && p.attendance[state.sessionDate];
+              return `<div class="result-item" onclick='selectPerson(${JSON.stringify(p)})'>
+        <div class="avatar" style="background:${c.bg}; color:${c.color};">${getInitials(p.name)}</div>
+        <div style="flex:1; min-width:0;">
+          <div class="result-name">${p.name}</div>
+          <div class="result-sub">${p.phone} · ${p.college}</div>
+        </div>
+        ${
+          alreadyPresent
+            ? '<span class="badge badge-green">حاضر ✓</span>'
+            : '<span class="badge badge-gray">غائب</span>'
+        }
+      </div>`;
+            })
+            .join("");
+        } catch (e) {
+          loader.classList.remove("show");
+          showToast("خطأ في الاتصال: " + e.message, true);
+        }
+      }
+
+      // ── SELECT PERSON ──────────────────────────────────────────────
+      function selectPerson(person) {
+        state.selectedPerson = person;
+        state.pendingUpdates = {};
+
+        const c = avatarColors(person.name);
+        const count = Object.keys(person.attendance || {}).length;
+        const alreadyPresent =
+          person.attendance && person.attendance[state.sessionDate];
+
+        // Build detail card
+        document.getElementById("personDetailCard").innerHTML = `
+    <div class="person-header">
+      <div class="person-avatar" style="background:${c.bg}; color:${c.color};">${getInitials(person.name)}</div>
+      <div>
+        <div style="font-size:18px; font-weight:700; color:#1a1a1a;">${person.name}</div>
+        <div style="font-size:13px; color:var(--c-gray-600); margin-top:2px;">${person.college}</div>
+        ${alreadyPresent ? '<span class="badge badge-green" style="margin-top:6px;">حاضر اليوم بالفعل ✓</span>' : ""}
+      </div>
+    </div>
+    <table class="detail-table">
+      <tr>
+        <td><i class="ti ti-phone" style="font-size:14px; margin-left:5px;"></i>الموبايل</td>
+        <td>${person.phone || '<span style="color:#DDD">—</span>'}</td>
+      </tr>
+      <tr>
+        <td><i class="ti ti-cake" style="font-size:14px; margin-left:5px;"></i>الميلاد</td>
+        <td>${person.bdate ? formatDateShortAr(person.bdate) : '<span style="color:#DDD">—</span>'}</td>
+      </tr>
+      <tr>
+        <td><i class="ti ti-school" style="font-size:14px; margin-left:5px;"></i>الكلية</td>
+        <td>${person.college || '<span style="color:#DDD">—</span>'}</td>
+      </tr>
+      <tr>
+        <td><i class="ti ti-calendar-check" style="font-size:14px; margin-left:5px;"></i>أول حضور</td>
+        <td>${person.firstDate ? formatDateShortAr(person.firstDate) : '<span style="color:#DDD">—</span>'}</td>
+      </tr>
+      <tr>
+        <td><i class="ti ti-calendar-stats" style="font-size:14px; margin-left:5px;"></i>مرات الحضور</td>
+        <td><span class="badge badge-blue">${count} مرة</span></td>
+      </tr>
+    </table>`;
+
+        // Check for missing fields
+        const missing = [];
+        if (!person.phone)
+          missing.push({
+            key: "phone",
+            label: "رقم الموبايل",
+            type: "tel",
+            placeholder: "01XXXXXXXXX",
+          });
+        if (!person.bdate)
+          missing.push({
+            key: "bdate",
+            label: "تاريخ الميلاد",
+            type: "date",
+            placeholder: "",
+          });
+        if (!person.college)
+          missing.push({
+            key: "college",
+            label: "الكلية",
+            type: "text",
+            placeholder: "اسم الكلية",
+          });
+
+        const missingSec = document.getElementById("missingSection");
+        const missingFlds = document.getElementById("missingFields");
+        if (missing.length > 0) {
+          missingSec.style.display = "";
+          missingFlds.innerHTML = missing
+            .map(
+              (f) => `
+      <div class="field" style="margin-bottom:10px;">
+        <label class="field-label" style="color:var(--c-amber-600);">${f.label}</label>
+        <input type="${f.type}" id="mf_${f.key}" placeholder="${f.placeholder}"
+          oninput="state.pendingUpdates['${f.key}'] = this.value" />
+      </div>`,
+            )
+            .join("");
+        } else {
+          missingSec.style.display = "none";
+        }
+
+        document.getElementById("confirmDateLabel").textContent =
+          state.sessionDateAr;
+        goTo("p3");
+      }
+
+      // ── CONFIRM ATTENDANCE ─────────────────────────────────────────
+      async function confirmAttendance() {
+        const p = state.selectedPerson;
+        if (!p) return;
+
+        // Save any pending updates first
+        if (Object.keys(state.pendingUpdates).length > 0) {
+          try {
+            await apiPost({
+              action: "updatePerson",
+              type: state.currentType,
+              rowIndex: p.rowIndex,
+              updates: state.pendingUpdates,
+            });
+          } catch (e) {
+            /* non-critical */
+          }
+        }
+
+        // Mark attendance
+        try {
+          const res = await apiPost({
+            action: "markAttendance",
+            type: state.currentType,
+            rowIndex: p.rowIndex,
+            date: state.sessionDate,
+          });
+          if (!res.ok) {
+            showToast("خطأ: " + res.error, true);
+            return;
+          }
+
+          document.getElementById("successName").textContent =
+            "تم تسجيل حضور " + p.name;
+          document.getElementById("successSub").textContent =
+            state.sessionDateAr;
+          goTo("p5");
+        } catch (e) {
+          showToast("خطأ في الاتصال: " + e.message, true);
+        }
+      }
+
+      // ── NEWCOMER ───────────────────────────────────────────────────
+      function goToNewcomer() {
+        ["nc_fname", "nc_lname", "nc_phone", "nc_other_college"].forEach(
+          (id) => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
+          },
+        );
+        document.getElementById("nc_bdate").value = "";
+        document.getElementById("nc_is_old").checked = false;
+        document.getElementById("otherCollegeWrap").style.display = "none";
+        // Deselect all colleges
+        document
+          .querySelectorAll(".college-item")
+          .forEach((el) => el.classList.remove("selected"));
+        document
+          .querySelectorAll(".college-item input")
+          .forEach((r) => (r.checked = false));
+
+        const title = state.currentType === 1 ? "خدام" : "مخدوم";
+        const newcomerType = state.currentType === 1 ? "خادم" : "مخدوم";
+        document.getElementById("p4Title").textContent =
+          newcomerType + " جديد — " + title;
+        document.getElementById("newcomerBtn").innerHTML =
+          '<i class="ti ti-user-plus"></i> تسجيل ' + newcomerType + " جديد";
+        document.getElementById("noResultsHint").textContent =
+          "هل هو " + newcomerType + " جديد؟";
+        document.getElementById("p4Sub").textContent =
+          "أدخل بيانات الشخص الجديد";
+        document.getElementById("ncDateLabel").textContent =
+          state.sessionDateAr;
+        goTo("p4");
+      }
+
+      function buildCollegeGrid() {
+        const grid = document.getElementById("collegeGrid");
+        grid.innerHTML = COLLEGES.map(
+          (c) => `
+    <label class="college-item" onclick="selectCollege(this, '${c}')">
+      <input type="radio" name="college" value="${c}" />
+      ${c}
+    </label>`,
+        ).join("");
+      }
+
+      function selectCollege(el, val) {
+        document
+          .querySelectorAll(".college-item")
+          .forEach((x) => x.classList.remove("selected"));
+        el.classList.add("selected");
+        el.querySelector("input").checked = true;
+        document.getElementById("otherCollegeWrap").style.display =
+          val === "أخرى" ? "" : "none";
+        if (val !== "أخرى")
+          document.getElementById("nc_other_college").value = "";
+      }
+
+      async function submitNewcomer() {
+        const fname = document.getElementById("nc_fname").value.trim();
+        const lname = document.getElementById("nc_lname").value.trim();
+        const phone = document.getElementById("nc_phone").value.trim();
+        const bdate = document.getElementById("nc_bdate").value;
+        const isOld = document.getElementById("nc_is_old").checked;
+        const checked = document.querySelector(".college-item.selected input");
+        let college = checked ? checked.value : "";
+        if (college === "أخرى")
+          college = document.getElementById("nc_other_college").value.trim();
+
+        // Validate
+        const errors = [];
+        if (!fname || !lname) errors.push("الاسم مطلوب");
+        if (!phone || phone.length < 10) errors.push("رقم الموبايل غير صحيح");
+        if (!bdate) errors.push("تاريخ الميلاد مطلوب");
+        if (!college) errors.push("اختر الكلية");
+        if (errors.length) {
+          showToast(errors[0], true);
+          return;
+        }
+
+        const name = fname + " " + lname;
+
+        try {
+          const res = await apiPost({
+            action: "addNewcomer",
+            type: state.currentType,
+            name,
+            phone,
+            bdate,
+            college,
+            date: state.sessionDate,
+            isOld: isOld,
+          });
+
+          if (!res.ok) {
+            if (res.duplicate) {
+              showToast("رقم الموبايل موجود بالفعل في الشيت!", true);
+            } else {
+              showToast("خطأ: " + res.error, true);
+            }
+            return;
+          }
+
+          let successMsg = "عضو جديد + حضور " + state.sessionDateAr;
+          if (isOld) {
+            successMsg += " (وافد قديم)";
+          }
+
+          document.getElementById("successName").textContent =
+            "تمت إضافة " + name;
+          document.getElementById("successSub").textContent = successMsg;
+          goTo("p5");
+        } catch (e) {
+          showToast("خطأ في الاتصال: " + e.message, true);
+        }
+      }
+
+      // ── NEXT PERSON ────────────────────────────────────────────────
+      function nextPerson() {
+        goToSearch(state.currentType);
+      }
+
+      // ── VIEW FIRST-TIME PERSONS ────────────────────────────────────
+      async function viewFirstTimePersons() {
+        goTo("p6");
+        document.getElementById("firstTimeLoader").classList.add("show");
+        document.getElementById("firstTimeList").style.display = "none";
+        document.getElementById("firstTimeEmpty").style.display = "none";
+
+        try {
+          // Fetch from both types
+          const [a, b] = await Promise.all([
+            apiGet({
+              action: "getFirstTimePersons",
+              type: 1,
+              date: state.sessionDate,
+            }),
+            apiGet({
+              action: "getFirstTimePersons",
+              type: 2,
+              date: state.sessionDate,
+            }),
+          ]);
+
+          const aPersons = a && a.ok ? a.persons || [] : [];
+          const bPersons = b && b.ok ? b.persons || [] : [];
+          const allPersons = [...aPersons, ...bPersons];
+
+          document.getElementById("firstTimeLoader").classList.remove("show");
+
+          if (allPersons.length === 0) {
+            document.getElementById("firstTimeEmpty").style.display = "block";
+            return;
+          }
+
+          const html = allPersons
+            .map((p) => {
+              const c = avatarColors(p.name);
+              return `
+    <div class="card" style="margin-bottom: 12px;">
+      <div class="person-header">
+        <div class="person-avatar" style="background:${c.bg}; color:${c.color};">${getInitials(p.name)}</div>
+        <div>
+          <div style="font-size:16px; font-weight:700; color:#1a1a1a;">${p.name}</div>
+          <div style="font-size:13px; color:var(--c-gray-600); margin-top:2px;">${p.college}</div>
+        </div>
+      </div>
+      <table class="detail-table">
+        <tr>
+          <td><i class="ti ti-phone" style="font-size:14px; margin-left:5px;"></i>الموبايل</td>
+          <td>${p.phone || '<span style="color:#DDD">—</span>'}</td>
+        </tr>
+        <tr>
+          <td><i class="ti ti-cake" style="font-size:14px; margin-left:5px;"></i>الميلاد</td>
+          <td>${p.bdate ? formatDateShortAr(p.bdate) : '<span style="color:#DDD">—</span>'}</td>
+        </tr>
+        <tr>
+          <td><i class="ti ti-school" style="font-size:14px; margin-left:5px;"></i>الكلية</td>
+          <td>${p.college || '<span style="color:#DDD">—</span>'}</td>
+        </tr>
+        <tr>
+          <td><i class="ti ti-calendar-check" style="font-size:14px; margin-left:5px;"></i>أول حضور</td>
+          <td><span class="badge badge-amber">${p.firstDate ? formatDateShortAr(p.firstDate) : '—'}</span></td>
+        </tr>
+      </table>
+    </div>`;
+            })
+            .join("");
+
+          document.getElementById("firstTimeList").innerHTML = html;
+          document.getElementById("firstTimeList").style.display = "block";
+        } catch (e) {
+          document.getElementById("firstTimeLoader").classList.remove("show");
+          document.getElementById("firstTimeEmpty").style.display = "block";
+          showToast("خطأ في التحميل: " + e.message, true);
+        }
+      }
+
+      // ── VIEW TODAY ATTENDEES ────────────────────────────────────────
+      async function viewTodayAttendees() {
+        goTo("p7");
+        document.getElementById("attendeeLoader").classList.add("show");
+        document.getElementById("attendeeList").style.display = "none";
+        document.getElementById("attendeeEmpty").style.display = "none";
+
+        try {
+          // Fetch from both types
+          const [a, b] = await Promise.all([
+            apiGet({
+              action: "getTodayAttendees",
+              type: 1,
+              date: state.sessionDate,
+            }),
+            apiGet({
+              action: "getTodayAttendees",
+              type: 2,
+              date: state.sessionDate,
+            }),
+          ]);
+
+          const aPersons = a && a.ok ? a.persons || [] : [];
+          const bPersons = b && b.ok ? b.persons || [] : [];
+          const allPersons = [...aPersons, ...bPersons];
+
+          document.getElementById("attendeeLoader").classList.remove("show");
+
+          if (allPersons.length === 0) {
+            document.getElementById("attendeeEmpty").style.display = "block";
+            return;
+          }
+
+          const html = allPersons
+            .map((p, idx) => {
+              const c = avatarColors(p.name);
+              return `
+    <div class="card" style="margin-bottom: 12px;">
+      <div class="person-header">
+        <div class="person-avatar" style="background:${c.bg}; color:${c.color};">${getInitials(p.name)}</div>
+        <div style="flex:1;">
+          <div style="font-size:16px; font-weight:700; color:#1a1a1a;">${p.name}</div>
+          <div style="font-size:13px; color:var(--c-gray-600); margin-top:2px;">${p.college}</div>
+        </div>
+        <input
+          type="checkbox"
+          checked
+          class="attendee-check"
+          data-type="${a.persons && a.persons.includes(p) ? 1 : 2}"
+          data-row="${p.rowIndex}"
+          data-name="${p.name}"
+          onchange="toggleAttendance(this)"
+          style="width: 20px; height: 20px; cursor: pointer;"
+        />
+      </div>
+      <table class="detail-table">
+        <tr>
+          <td><i class="ti ti-phone" style="font-size:14px; margin-left:5px;"></i>الموبايل</td>
+          <td>${p.phone || '<span style="color:#DDD">—</span>'}</td>
+        </tr>
+        <tr>
+          <td><i class="ti ti-cake" style="font-size:14px; margin-left:5px;"></i>الميلاد</td>
+          <td>${p.bdate ? formatDateShortAr(p.bdate) : '<span style="color:#DDD">—</span>'}</td>
+        </tr>
+        <tr>
+          <td><i class="ti ti-school" style="font-size:14px; margin-left:5px;"></i>الكلية</td>
+          <td>${p.college || '<span style="color:#DDD">—</span>'}</td>
+        </tr>
+        <tr>
+          <td><i class="ti ti-calendar-check" style="font-size:14px; margin-left:5px;"></i>أول حضور</td>
+          <td>${p.firstDate ? formatDateShortAr(p.firstDate) : '<span style="color:#DDD">—</span>'}</td>
+        </tr>
+      </table>
+    </div>`;
+            })
+            .join("");
+
+          document.getElementById("attendeeList").innerHTML = html;
+          document.getElementById("attendeeList").style.display = "block";
+        } catch (e) {
+          document.getElementById("attendeeLoader").classList.remove("show");
+          document.getElementById("attendeeEmpty").style.display = "block";
+          showToast("خطأ في التحميل: " + e.message, true);
+        }
+      }
+
+      // ── TOGGLE ATTENDANCE ───────────────────────────────────────────
+      async function toggleAttendance(checkbox) {
+        const personType = parseInt(checkbox.dataset.type);
+        const rowIndex = parseInt(checkbox.dataset.row);
+        const personName = checkbox.dataset.name;
+        const isChecked = checkbox.checked;
+
+        try {
+          if (isChecked) {
+            // Mark attendance
+            await apiPost({
+              action: "markAttendance",
+              type: personType,
+              rowIndex: rowIndex,
+              date: state.sessionDate,
+            });
+            showToast("✓ تم تسجيل حضور " + personName);
+          } else {
+            // Remove attendance (set cell to empty)
+            await apiPost({
+              action: "removeAttendance",
+              type: personType,
+              rowIndex: rowIndex,
+              date: state.sessionDate,
+            });
+            showToast("✗ تم حذف حضور " + personName);
+          }
+        } catch (e) {
+          // Revert checkbox on error
+          checkbox.checked = !isChecked;
+          showToast("خطأ: " + e.message, true);
+        }
+      }
+    </script> -->
+    <script src="script.js"></script>
+  </body>
+</html>
