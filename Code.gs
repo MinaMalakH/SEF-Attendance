@@ -53,6 +53,24 @@ function corsResponse(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+// ── CACHE FOR PERFORMANCE ────────────────────────────────────
+// Cache date columns to reduce repeated header reading
+const dateColumnCache = {};
+const dateCacheTimeout = 60000; // 1 minute cache
+
+function getCachedDateColumns(sheetType) {
+  const cacheKey = `type${sheetType}`;
+  const now = Date.now();
+  if (dateColumnCache[cacheKey] && (now - dateColumnCache[cacheKey].timestamp) < dateCacheTimeout) {
+    return dateColumnCache[cacheKey].data;
+  }
+  
+  const manager = new SheetManager(sheetType);
+  const cols = manager.getDateColumns();
+  dateColumnCache[cacheKey] = { data: cols, timestamp: now };
+  return cols;
+}
+
 // ══════════════════════════════════════════════════════════════
 // ▼ VALIDATORS & ERROR HANDLING
 // ══════════════════════════════════════════════════════════════
@@ -158,19 +176,23 @@ class SheetManager {
       .getValues();
   }
 
-  // Build a person object from a raw row
+  // Build a person object from a raw row (optimized)
   buildPersonObject(row, rowIndex, dateColumns) {
     const attendance = {};
-    dateColumns.forEach((d) => {
+    for (let i = 0; i < dateColumns.length; i++) {
+      const d = dateColumns[i];
       const val = row[d.col - 1];
-      if (val && val !== "" && val !== 0) attendance[d.date] = true;
-    });
+      if (val && val !== "" && val !== 0) {
+        attendance[d.date] = true;
+      }
+    }
 
+    // Fast date formatting
     let bdate = row[CONFIG.columns.BDATE - 1];
     if (bdate instanceof Date) {
       bdate = Utilities.formatDate(bdate, Session.getScriptTimeZone(), CONFIG.formats.dateFormat);
     } else {
-      bdate = String(bdate || "").trim();
+      bdate = bdate ? String(bdate).trim() : "";
     }
 
     // Read firstDate from column F
@@ -178,27 +200,27 @@ class SheetManager {
     if (firstDate instanceof Date) {
       firstDate = Utilities.formatDate(firstDate, Session.getScriptTimeZone(), CONFIG.formats.dateFormat);
     } else {
-      firstDate = String(firstDate || "").trim();
+      firstDate = firstDate ? String(firstDate).trim() : "";
     }
 
     // If col F is empty, derive from the oldest ✓ in date columns (for old entries)
     if (!firstDate && dateColumns.length > 0) {
-      const sorted = dateColumns
-        .filter((d) => {
-          const val = row[d.col - 1];
-          return val && val !== "" && val !== 0;
-        })
-        .map((d) => d.date)
-        .sort();
-      if (sorted.length > 0) firstDate = sorted[0];
+      for (let i = 0; i < dateColumns.length; i++) {
+        const d = dateColumns[i];
+        const val = row[d.col - 1];
+        if (val && val !== "" && val !== 0) {
+          firstDate = d.date;
+          break;
+        }
+      }
     }
 
     return {
       rowIndex:       rowIndex,
-      name:           String(row[CONFIG.columns.NAME     - 1] || "").trim(),
-      phone:          String(row[CONFIG.columns.PHONE    - 1] || "").trim(),
+      name:           (row[CONFIG.columns.NAME - 1] || "").toString().trim(),
+      phone:          (row[CONFIG.columns.PHONE - 1] || "").toString().trim(),
       bdate:          bdate,
-      college:        String(row[CONFIG.columns.COLLEGE  - 1] || "").trim(),
+      college:        (row[CONFIG.columns.COLLEGE - 1] || "").toString().trim(),
       isOld:          !!(row[CONFIG.columns.ISOLD - 1]),
       firstDate:      firstDate,
       attendance:     attendance,
@@ -281,7 +303,7 @@ function getDates(params) {
 function getStats(params) {
   const manager     = new SheetManager(params.type || "1");
   const data        = manager.getAllData();
-  const dateColumns = manager.getDateColumns();
+  const dateColumns = getCachedDateColumns(params.type || "1");
   const todayDate   = validateDate(params.date);
   const dateCol     = manager.findDateColumn(todayDate);
 
@@ -325,7 +347,7 @@ function getFirstTimePersons(params) {
 
   const manager     = new SheetManager(type);
   const data        = manager.getAllData();
-  const dateColumns = manager.getDateColumns();
+  const dateColumns = getCachedDateColumns(type);
   const dateCol     = manager.findDateColumn(todayDate);
 
   if (dateCol < 0) return { ok: true, persons: [] };
@@ -359,7 +381,7 @@ function getTodayAttendees(params) {
 
   const manager     = new SheetManager(type);
   const data        = manager.getAllData();
-  const dateColumns = manager.getDateColumns();
+  const dateColumns = getCachedDateColumns(type);
   const dateCol     = manager.findDateColumn(todayDate);
 
   if (dateCol < 0) return { ok: true, persons: [] };
@@ -386,7 +408,7 @@ function searchPerson(params) {
 
   const manager     = new SheetManager(type);
   const data        = manager.getAllData();
-  const dateColumns = manager.getDateColumns();
+  const dateColumns = getCachedDateColumns(type);
 
   const results = data
     .map((row, i) => manager.buildPersonObject(row, i + CONFIG.rows.DATA_START, dateColumns))

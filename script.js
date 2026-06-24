@@ -26,6 +26,7 @@ let state = {
     pendingUpdates: {}, // { phone, bdate, college } from missing-fields editor
     scriptUrl: "",
     searchTimer: null,
+    disabledButtons: new Set(), // Track disabled buttons to prevent multiple submissions
 };
 
 // ── INIT ───────────────────────────────────────────────────────
@@ -43,6 +44,46 @@ window.onload = function () {
 };
 
 // ── UTILS ──────────────────────────────────────────────────────
+// Disable a button temporarily during API call
+function disableButton(buttonId) {
+    const btn = document.getElementById(buttonId);
+    if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = "0.6";
+        btn.style.cursor = "not-allowed";
+        state.disabledButtons.add(buttonId);
+    }
+}
+
+// Re-enable a button after API call completes
+function enableButton(buttonId) {
+    const btn = document.getElementById(buttonId);
+    if (btn) {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+        state.disabledButtons.delete(buttonId);
+    }
+}
+
+// Disable all buttons with a specific selector
+function disableButtonsBySelector(selector) {
+    document.querySelectorAll(selector).forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = "0.6";
+        btn.style.cursor = "not-allowed";
+    });
+}
+
+// Re-enable all buttons with a specific selector
+function enableButtonsBySelector(selector) {
+    document.querySelectorAll(selector).forEach(btn => {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+    });
+}
+
 function goTo(pageId) {
     document
         .querySelectorAll(".page")
@@ -143,6 +184,14 @@ async function startSession() {
     if (!state.scriptUrl) {
         showToast("أدخل رابط Web App أولاً", true);
         return;
+    }
+
+    // Find and disable the start button
+    const startBtn = document.querySelector('[onclick="startSession()"]');
+    if (startBtn) {
+        startBtn.disabled = true;
+        startBtn.style.opacity = "0.6";
+        startBtn.style.cursor = "not-allowed";
     }
 
     state.sessionDate = d;
@@ -388,22 +437,30 @@ async function confirmAttendance() {
     const p = state.selectedPerson;
     if (!p) return;
 
-    // Save any pending updates first
-    if (Object.keys(state.pendingUpdates).length > 0) {
-        try {
-            await apiPost({
-                action: "updatePerson",
-                type: state.currentType,
-                rowIndex: p.rowIndex,
-                updates: state.pendingUpdates,
-            });
-        } catch (e) {
-            /* non-critical */
-        }
+    // Disable the confirm button to prevent double submission
+    const confirmBtn = document.querySelector('[onclick="confirmAttendance()"]');
+    if (confirmBtn) {
+        confirmBtn.disabled = true;
+        confirmBtn.style.opacity = "0.6";
+        confirmBtn.style.cursor = "not-allowed";
     }
 
-    // Mark attendance
     try {
+        // Save any pending updates first
+        if (Object.keys(state.pendingUpdates).length > 0) {
+            try {
+                await apiPost({
+                    action: "updatePerson",
+                    type: state.currentType,
+                    rowIndex: p.rowIndex,
+                    updates: state.pendingUpdates,
+                });
+            } catch (e) {
+                /* non-critical */
+            }
+        }
+
+        // Mark attendance
         const res = await apiPost({
             action: "markAttendance",
             type: state.currentType,
@@ -412,6 +469,12 @@ async function confirmAttendance() {
         });
         if (!res.ok) {
             showToast("خطأ: " + res.error, true);
+            // Re-enable button on error
+            if (confirmBtn) {
+                confirmBtn.disabled = false;
+                confirmBtn.style.opacity = "1";
+                confirmBtn.style.cursor = "pointer";
+            }
             return;
         }
 
@@ -422,6 +485,12 @@ async function confirmAttendance() {
         goTo("p5");
     } catch (e) {
         showToast("خطأ في الاتصال: " + e.message, true);
+        // Re-enable button on error
+        if (confirmBtn) {
+            confirmBtn.disabled = false;
+            confirmBtn.style.opacity = "1";
+            confirmBtn.style.cursor = "pointer";
+        }
     }
 }
 
@@ -506,6 +575,14 @@ async function submitNewcomer() {
 
     const name = fname + " " + lname;
 
+    // Disable the submit button to prevent double submission
+    const submitBtn = document.querySelector('[onclick="submitNewcomer()"]');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = "0.6";
+        submitBtn.style.cursor = "not-allowed";
+    }
+
     try {
         const res = await apiPost({
             action: "addNewcomer",
@@ -524,6 +601,12 @@ async function submitNewcomer() {
             } else {
                 showToast("خطأ: " + res.error, true);
             }
+            // Re-enable button on error
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = "1";
+                submitBtn.style.cursor = "pointer";
+            }
             return;
         }
 
@@ -538,6 +621,12 @@ async function submitNewcomer() {
         goTo("p5");
     } catch (e) {
         showToast("خطأ في الاتصال: " + e.message, true);
+        // Re-enable button on error
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = "1";
+            submitBtn.style.cursor = "pointer";
+        }
     }
 }
 
@@ -715,6 +804,9 @@ async function toggleAttendance(checkbox) {
     const personName = checkbox.dataset.name;
     const isChecked = checkbox.checked;
 
+    // Disable checkbox during operation
+    checkbox.disabled = true;
+
     try {
         if (isChecked) {
             // Mark attendance
@@ -739,5 +831,8 @@ async function toggleAttendance(checkbox) {
         // Revert checkbox on error
         checkbox.checked = !isChecked;
         showToast("خطأ: " + e.message, true);
+    } finally {
+        // Always re-enable checkbox
+        checkbox.disabled = false;
     }
 }
