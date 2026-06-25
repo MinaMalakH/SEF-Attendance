@@ -390,6 +390,14 @@ function selectPerson(person) {
     state.selectedPerson = person;
     state.pendingUpdates = {};
 
+    // Reset confirm button state for new person
+    const confirmBtn = document.querySelector('[onclick="confirmAttendance()"]');
+    if (confirmBtn) {
+        confirmBtn.disabled = false;
+        confirmBtn.style.opacity = "1";
+        confirmBtn.style.cursor = "pointer";
+    }
+
     const c = avatarColors(person.name);
     const count = Object.keys(person.attendance || {}).length;
     const alreadyPresent =
@@ -525,6 +533,12 @@ async function confirmAttendance() {
             "تم تسجيل حضور " + p.name;
         document.getElementById("successSub").textContent =
             state.sessionDateAr;
+        // Re-enable button after success
+        if (confirmBtn) {
+            confirmBtn.disabled = false;
+            confirmBtn.style.opacity = "1";
+            confirmBtn.style.cursor = "pointer";
+        }
         goTo("p5");
     } catch (e) {
         showToast("خطأ في الاتصال: " + e.message, true);
