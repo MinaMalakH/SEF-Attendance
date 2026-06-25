@@ -131,6 +131,49 @@ function getInitials(name) {
     return parts.length >= 2 ? parts[0][0] + parts[1][0] : parts[0][0];
 }
 
+function escapeHtml(value) {
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function setPendingUpdate(key, value) {
+    state.pendingUpdates[key] = value;
+}
+
+function renderPersonFieldRow(key, label, value, type) {
+    const displayValue = key === "bdate" ? formatDateShortAr(value) : escapeHtml(value);
+    const icon = key === "phone" ? "phone" : key === "bdate" ? "cake" : key === "college" ? "school" : "id";
+    return `
+    <tr id="fieldRow_${key}">
+        <td><i class="ti ti-${icon}" style="font-size:14px; margin-left:5px;"></i>${label}</td>
+        <td id="fieldEditor_${key}" style="display:flex; align-items:center; justify-content:flex-end; gap:8px;">
+            <span id="fieldValue_${key}">${displayValue || '<span style="color:#DDD">—</span>'}</span>
+            <button type="button" class="icon-btn" onclick="editPersonField('${key}', '${type}')" style="border:none; background:none; color:var(--c-blue-600); cursor:pointer; padding:0;">
+                <i class="ti ti-pencil"></i>
+            </button>
+        </td>
+    </tr>`;
+}
+
+function editPersonField(key, type) {
+    const person = state.selectedPerson || {};
+    const currentValue = state.pendingUpdates[key] !== undefined ? state.pendingUpdates[key] : person[key] || "";
+    const inputType = type || (key === "bdate" ? "date" : "text");
+    const inputValue = inputType === "date" ? currentValue : escapeHtml(currentValue);
+    const editor = document.getElementById(`fieldEditor_${key}`);
+    if (!editor) return;
+
+    editor.innerHTML = `<input type="${inputType}" id="input_${key}" value="${inputValue}"
+            style="width:100%; padding:8px; border:1px solid #DDD; border-radius:6px;"
+            oninput="setPendingUpdate('${key}', this.value)" />`;
+    const input = document.getElementById(`input_${key}`);
+    if (input) input.focus();
+}
+
 function avatarColors(name) {
     const palettes = [
         { bg: "#E6F1FB", color: "#0C447C" },
@@ -357,24 +400,16 @@ function selectPerson(person) {
 <div class="person-header">
     <div class="person-avatar" style="background:${c.bg}; color:${c.color};">${getInitials(person.name)}</div>
     <div>
-    <div style="font-size:18px; font-weight:700; color:#1a1a1a;">${person.name}</div>
-    <div style="font-size:13px; color:var(--c-gray-600); margin-top:2px;">${person.college}</div>
+    <div style="font-size:18px; font-weight:700; color:#1a1a1a;">${escapeHtml(person.name)}</div>
+    <div style="font-size:13px; color:var(--c-gray-600); margin-top:2px;">${escapeHtml(person.college || "—")}</div>
     ${alreadyPresent ? '<span class="badge badge-green" style="margin-top:6px;">حاضر اليوم بالفعل ✓</span>' : ""}
     </div>
 </div>
 <table class="detail-table">
-    <tr>
-    <td><i class="ti ti-phone" style="font-size:14px; margin-left:5px;"></i>الموبايل</td>
-    <td>${person.phone || '<span style="color:#DDD">—</span>'}</td>
-    </tr>
-    <tr>
-    <td><i class="ti ti-cake" style="font-size:14px; margin-left:5px;"></i>الميلاد</td>
-    <td>${person.bdate ? formatDateShortAr(person.bdate) : '<span style="color:#DDD">—</span>'}</td>
-    </tr>
-    <tr>
-    <td><i class="ti ti-school" style="font-size:14px; margin-left:5px;"></i>الكلية</td>
-    <td>${person.college || '<span style="color:#DDD">—</span>'}</td>
-    </tr>
+    ${renderPersonFieldRow("name", "الاسم", person.name || "", "text")}
+    ${person.phone ? renderPersonFieldRow("phone", "رقم الموبايل", person.phone, "tel") : ""}
+    ${person.bdate ? renderPersonFieldRow("bdate", "تاريخ الميلاد", person.bdate, "date") : ""}
+    ${person.college ? renderPersonFieldRow("college", "الكلية", person.college, "text") : ""}
     <tr>
     <td><i class="ti ti-calendar-check" style="font-size:14px; margin-left:5px;"></i>أول حضور</td>
     <td>${person.firstDate ? formatDateShortAr(person.firstDate) : '<span style="color:#DDD">—</span>'}</td>
@@ -448,16 +483,24 @@ async function confirmAttendance() {
     try {
         // Save any pending updates first
         if (Object.keys(state.pendingUpdates).length > 0) {
-            try {
-                await apiPost({
-                    action: "updatePerson",
-                    type: state.currentType,
-                    rowIndex: p.rowIndex,
-                    updates: state.pendingUpdates,
-                });
-            } catch (e) {
-                /* non-critical */
+            const updateRes = await apiPost({
+                action: "updatePerson",
+                type: state.currentType,
+                rowIndex: p.rowIndex,
+                updates: state.pendingUpdates,
+            });
+            if (!updateRes.ok) {
+                showToast("خطأ في تحديث البيانات: " + updateRes.error, true);
+                if (confirmBtn) {
+                    confirmBtn.disabled = false;
+                    confirmBtn.style.opacity = "1";
+                    confirmBtn.style.cursor = "pointer";
+                }
+                return;
             }
+            Object.assign(p, state.pendingUpdates);
+            state.selectedPerson = p;
+            state.pendingUpdates = {};
         }
 
         // Mark attendance

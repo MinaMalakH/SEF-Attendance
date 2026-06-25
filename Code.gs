@@ -579,9 +579,41 @@ function updatePerson(body) {
 
   const manager = new SheetManager(type);
 
-  if (updates.phone   !== undefined) manager.sheet.getRange(rowIndex, CONFIG.columns.PHONE  ).setValue(updates.phone);
-  if (updates.bdate   !== undefined) manager.sheet.getRange(rowIndex, CONFIG.columns.BDATE  ).setValue(updates.bdate);
-  if (updates.college !== undefined) manager.sheet.getRange(rowIndex, CONFIG.columns.COLLEGE).setValue(updates.college);
+  if (updates.name !== undefined) {
+    const name = validateName(updates.name);
+    manager.sheet.getRange(rowIndex, CONFIG.columns.NAME).setValue(name);
+  }
+
+  if (updates.phone !== undefined) {
+    const phone = validatePhone(updates.phone);
+
+    // Prevent duplicate phone numbers in the same sheet
+    const data = manager.getAllData();
+    for (let i = 0; i < data.length; i++) {
+      const existingRow = i + CONFIG.rows.DATA_START;
+      if (existingRow === rowIndex) continue;
+      if (String(data[i][CONFIG.columns.PHONE - 1]).trim() === phone) {
+        return {
+          ok: false,
+          error: "رقم الموبايل موجود بالفعل",
+          duplicate: true,
+          existingRow: existingRow,
+        };
+      }
+    }
+
+    manager.sheet.getRange(rowIndex, CONFIG.columns.PHONE).setValue(phone);
+  }
+
+  if (updates.bdate !== undefined) {
+    const bdate = validateDate(updates.bdate);
+    manager.sheet.getRange(rowIndex, CONFIG.columns.BDATE).setValue(bdate);
+  }
+
+  if (updates.college !== undefined) {
+    const college = validateCollege(updates.college);
+    manager.sheet.getRange(rowIndex, CONFIG.columns.COLLEGE).setValue(college);
+  }
 
   return { ok: true, rowIndex: rowIndex, updated: Object.keys(updates) };
 }
